@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Temp
+tmp/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Secrets
+.env
+.env.*
+.env.*.local
+*.pem
+*.key
+*.p12
+
+# Tool config
+.claude/
+.cursor/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
