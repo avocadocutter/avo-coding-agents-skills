@@ -1,12 +1,13 @@
 # GitHub Repo Checklist
 
-Reference for the github-ready skill. Loaded on-demand during Phase 3.
+Universal baseline reference for the avo-github-ready skill.
+Stack-specific gitignore patterns and publish config checks are handled dynamically based on the detected stack profile and optional live research.
 
 ---
 
 ## Secret scan patterns
 
-Run these against the full git history:
+Run these against the full git history during Phase 1:
 
 ```bash
 # Credential assignments in any committed file
@@ -23,6 +24,13 @@ git grep "BEGIN RSA PRIVATE KEY\|BEGIN EC PRIVATE KEY\|BEGIN OPENSSH PRIVATE KEY
 
 # Deleted env files (may have contained secrets before deletion)
 git log --all --diff-filter=D --name-only --pretty=format: | grep -i "\.env" | sort -u
+
+# Secrets in commit messages
+git log --all --pretty=format:"%H %s %b" | grep -i -E "(password|secret|api_key|token|access_key)\s*[:=]"
+
+# Tracked secret-adjacent files
+git ls-files | grep -E "\.(pem|key|p12|pfx|npmrc|pypirc)$"
+git ls-files | grep -E "(^|/)id_rsa|id_ed25519|\.netrc$"
 
 # Show content of a deleted file from a specific commit
 git show <commit>:<path>
@@ -58,53 +66,36 @@ Never proceed with GitHub publishing until the credential is rotated.
 
 ---
 
-## .gitignore — common gaps by project type
+## Universal .gitignore patterns
 
-### Universal (add to every repo)
+Add to every repo regardless of stack:
+
 ```
-.DS_Store
-Thumbs.db
-*.log
+# Secrets and keys
+.env
+.env.local
+.env.*.local
+.env.keys
 *.pem
 *.key
 *.p12
 *.pfx
-.env
-.env.local
-.env.*.local
-```
 
-### Node.js / JavaScript
-```
-node_modules/
-dist/
-.turbo/
-.next/
-.vite/
-coverage/
-```
+# OS files
+.DS_Store
+Thumbs.db
 
-### Python
-```
-__pycache__/
-*.pyc
-.venv/
-venv/
-.pytest_cache/
-```
+# Logs
+*.log
 
-### AI tool configs (keep local, don't commit)
-```
+# AI tool configs (keep local)
 .claude/
 .cursor/
 .mcp.json
+.worktrees/
 ```
 
-### dotenvx encrypted files
-```
-# Only ignore if you're not committing encrypted env files intentionally
-.env.keys
-```
+Stack-specific patterns (node_modules, __pycache__, dist, etc.) are determined dynamically based on the detected stack profile and live research.
 
 ---
 
