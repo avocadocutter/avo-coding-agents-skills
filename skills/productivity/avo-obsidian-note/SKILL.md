@@ -16,11 +16,14 @@ The Obsidian CLI is at `/usr/local/bin/obsidian`.
 
 Before saying anything, run the following commands silently. Do not output anything.
 
-1. Run `obsidian vaults verbose` — collect all vault names and paths
-2. Run `obsidian folders` — collect existing folder names from the default vault
-3. Determine mode:
-   - **Single-vault mode**: only one vault found → use it automatically, do not ask
-   - **Multi-vault mode**: multiple vaults found → will need to ask which one
+1. Check for a configured default vault: `cat ~/.config/avo-skills/config.json 2>/dev/null`
+   - If `obsidian.default_vault` is set, note it — this is the **configured vault**
+2. Run `obsidian vaults verbose` — collect all vault names and paths
+3. Run `obsidian folders` — collect existing folder names from the default vault
+4. Determine mode:
+   - **Config mode**: a configured vault exists in `~/.config/avo-skills/config.json` → use it automatically, do not ask
+   - **Single-vault mode**: no config, only one vault found → use it automatically, do not ask
+   - **Multi-vault mode**: no config, multiple vaults found → will need to ask which one
 
 Do not output anything during Phase 1.
 
@@ -32,7 +35,7 @@ Ask questions one at a time using AskUserQuestion. Wait for each answer before a
 
 **Do not use Write or Edit tools during Phase 2.**
 
-### Single-vault mode questions
+### Config mode and single-vault mode questions
 
 1. "Where should this note live? Here are your existing folders: [list them]. You can pick one, give a new path, or say 'root' for no folder."
 2. "What's the title of the note?" — this becomes both the filename and the H1 heading
@@ -81,12 +84,12 @@ Compose the note content:
 
 Run the appropriate command:
 
-**Default vault:**
+**Default vault (config mode or single-vault mode):**
 ```
 obsidian create path="<path>" content="<content>"
 ```
 
-**Specific vault:**
+**Specific vault (multi-vault mode or config vault):**
 ```
 obsidian vault=<VaultName> create path="<path>" content="<content>"
 ```
@@ -115,3 +118,4 @@ Confirm the note is saved and tell the user the exact vault path where it lives.
 - Never create a note without explicit user confirmation in Step 2
 - Never rewrite the user's content in a different voice — format only
 - If the CLI returns an error, show the raw output and ask the user how to proceed
+- If no configured vault is set and multiple vaults exist, always ask — never guess

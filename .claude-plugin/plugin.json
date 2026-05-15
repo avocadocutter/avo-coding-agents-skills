@@ -1,0 +1,10 @@
+{
+  "name": "avo-skills",
+  "skills": [
+    "./skills/engineering/setup-avo-skills",
+    "./skills/engineering/avo-test-audit",
+    "./skills/engineering/avo-github-ready",
+    "./skills/engineering/avo-github-audit",
+    "./skills/productivity/avo-obsidian-note"
+  ]
+}
