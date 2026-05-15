@@ -1,5 +1,7 @@
 # coding-agents-skills
 
+[![skills.sh](https://skills.sh/b/avocadocutter/avo-coding-agents-skills)](https://skills.sh/avocadocutter/avo-coding-agents-skills)
+
 Installable skills for Claude Code and Cursor. Each skill guides an AI through a structured task — reading first, asking before acting, verifying each step.
 
 ## Why this exists
@@ -11,7 +13,7 @@ Most AI coding prompts fail the same way: the model makes assumptions, produces 
 ## Install
 
 ```bash
-npx skills@latest add avocadocutter/coding-agents-skills
+npx skills@latest add avocadocutter/avo-coding-agents-skills
 ```
 
 Pick the skills you want and which agent to install them on. **Make sure you select `/setup-avo-skills`** — run it once after installing to configure your Obsidian vault preference.
