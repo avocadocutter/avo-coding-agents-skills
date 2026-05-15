@@ -20,6 +20,7 @@ tmp/
 # Tool config
 .claude/
 .cursor/
+.agents/
 
 # Dependencies
 node_modules/
